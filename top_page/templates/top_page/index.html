@@ -2,7 +2,8 @@
 
 <div id="contents">
     <ol>
-        <li id="blog"> Blog </li>
-        <li id="about"> About Me </li>
+        {% for s in sections %}
+        <li id="{{ s.key }}"><a href="{{ s.url }}"> {{ s.name }} </a></li>
+        {% endfor %}
     </ol>
 </div>
