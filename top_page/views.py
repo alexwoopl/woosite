@@ -14,7 +14,8 @@ class IndexView(generic.ListView):
         context['sections'] = [SiteSection(key="game", url="", name="Game Blog"),
                                SiteSection(key="thoughts", url="", name="Thoughts"),
                                SiteSection(key="polls", url=reverse('polls:index'), name="Polls"),
-                               SiteSection(key="github", url="", name="Github")]
+                               SiteSection(key="github", url="https://github.com/alexwoopl?tab=repositories",
+                                           name="Github")]
         return context
 
     def get_queryset(self):
