@@ -6,7 +6,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var imgUrls = ["https://cmeimg-a.akamaihd.net/640/clsd/getty/c64f76dc20c246ca88ee180fe4b4b781", "https://lh3.googleusercontent.com/oxPeODS2m6rYIVbhcQChRtOWEYeGDwbeeeB1cDU2o_WYAVPU61VIgx-_6BAh5gSL8Sw=h900", "https://i0.wp.com/www.universodegatos.com/wp-content/uploads/2017/04/fivfelv7.jpg?resize=582%2C328", "https://i.pinimg.com/736x/07/c3/45/07c345d0eca11d0bc97c894751ba1b46.jpg", "https://ehealthforum.com/health/images/avatars/11699147425707699031013.jpeg"];
+var sections = JSON.parse(context.sections);
 
 var Carousel = function (_React$Component) {
 	_inherits(Carousel, _React$Component);
@@ -17,7 +17,7 @@ var Carousel = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Carousel.__proto__ || Object.getPrototypeOf(Carousel)).call(this, props));
 
 		_this.state = {
-			currentImageIndex: 0
+			currentSectionIndex: 0
 		};
 
 		_this.nextSlide = _this.nextSlide.bind(_this);
@@ -28,27 +28,27 @@ var Carousel = function (_React$Component) {
 	_createClass(Carousel, [{
 		key: "previousSlide",
 		value: function previousSlide() {
-			var lastIndex = imgUrls.length - 1;
-			var currentImageIndex = this.state.currentImageIndex;
+			var lastIndex = sections.length - 1;
+			var currentSectionIndex = this.state.currentSectionIndex;
 
-			var shouldResetIndex = currentImageIndex === 0;
-			var index = shouldResetIndex ? lastIndex : currentImageIndex - 1;
+			var shouldResetIndex = currentSectionIndex === 0;
+			var index = shouldResetIndex ? lastIndex : currentSectionIndex - 1;
 
 			this.setState({
-				currentImageIndex: index
+				currentSectionIndex: index
 			});
 		}
 	}, {
 		key: "nextSlide",
 		value: function nextSlide() {
-			var lastIndex = imgUrls.length - 1;
-			var currentImageIndex = this.state.currentImageIndex;
+			var lastIndex = sections.length - 1;
+			var currentSectionIndex = this.state.currentSectionIndex;
 
-			var shouldResetIndex = currentImageIndex === lastIndex;
-			var index = shouldResetIndex ? 0 : currentImageIndex + 1;
+			var shouldResetIndex = currentSectionIndex === lastIndex;
+			var index = shouldResetIndex ? 0 : currentSectionIndex + 1;
 
 			this.setState({
-				currentImageIndex: index
+				currentSectionIndex: index
 			});
 		}
 	}, {
@@ -58,7 +58,9 @@ var Carousel = function (_React$Component) {
 				"div",
 				{ className: "carousel" },
 				React.createElement(Arrow, { direction: "left", clickFunction: this.previousSlide, glyph: "\u25C0" }),
-				React.createElement(ImageSlide, { url: imgUrls[this.state.currentImageIndex] }),
+				React.createElement(ImageSlide, { image: sections[this.state.currentSectionIndex]["fields"]["image"],
+					link: sections[this.state.currentSectionIndex]["fields"]["url"],
+					text: sections[this.state.currentSectionIndex]["fields"]["name"] }),
 				React.createElement(Arrow, { direction: "right", clickFunction: this.nextSlide, glyph: "\u25B6" })
 			);
 		}
@@ -81,15 +83,22 @@ var Arrow = function Arrow(_ref) {
 };
 
 var ImageSlide = function ImageSlide(_ref2) {
-	var url = _ref2.url;
+	var image = _ref2.image,
+	    link = _ref2.link,
+	    text = _ref2.text;
 
 	var styles = {
-		backgroundImage: "url(" + url + ")",
+		backgroundImage: "url(" + image + ")",
 		backgroundSize: 'cover',
 		backgroundPosition: 'center'
 	};
 
-	return React.createElement("div", { className: "image-slide", style: styles });
+	return React.createElement(
+		"div",
+		{ className: "image-slide", style: styles },
+		text,
+		React.createElement("a", { className: "site-link", href: link })
+	);
 };
 
 ReactDOM.render(React.createElement(Carousel, null), document.getElementById('content'));

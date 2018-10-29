@@ -1,17 +1,11 @@
-const imgUrls = [
-	"https://cmeimg-a.akamaihd.net/640/clsd/getty/c64f76dc20c246ca88ee180fe4b4b781", 
-	"https://lh3.googleusercontent.com/oxPeODS2m6rYIVbhcQChRtOWEYeGDwbeeeB1cDU2o_WYAVPU61VIgx-_6BAh5gSL8Sw=h900",
-	"https://i0.wp.com/www.universodegatos.com/wp-content/uploads/2017/04/fivfelv7.jpg?resize=582%2C328",
-	"https://i.pinimg.com/736x/07/c3/45/07c345d0eca11d0bc97c894751ba1b46.jpg",
-	"https://ehealthforum.com/health/images/avatars/11699147425707699031013.jpeg"
-];
+const sections = JSON.parse(context.sections);
 
 class Carousel extends React.Component {
 	constructor (props) {
 		super(props);
 		
 		this.state = {
-			currentImageIndex: 0
+			currentSectionIndex: 0
 		};
 		
 		this.nextSlide = this.nextSlide.bind(this);
@@ -19,24 +13,24 @@ class Carousel extends React.Component {
 	}
 	
 	previousSlide () {
-		const lastIndex = imgUrls.length - 1;
-		const { currentImageIndex } = this.state;
-		const shouldResetIndex = currentImageIndex === 0;
-		const index =  shouldResetIndex ? lastIndex : currentImageIndex - 1;
+		const lastIndex = sections.length - 1;
+		const { currentSectionIndex } = this.state;
+		const shouldResetIndex = currentSectionIndex === 0;
+		const index =  shouldResetIndex ? lastIndex : currentSectionIndex - 1;
 		
 		this.setState({
-			currentImageIndex: index
+			currentSectionIndex: index
 		});
 	}
 	
 	nextSlide () {
-		const lastIndex = imgUrls.length - 1;
-		const { currentImageIndex } = this.state;
-		const shouldResetIndex = currentImageIndex === lastIndex;
-		const index =  shouldResetIndex ? 0 : currentImageIndex + 1;
+		const lastIndex = sections.length - 1;
+		const { currentSectionIndex } = this.state;
+		const shouldResetIndex = currentSectionIndex === lastIndex;
+		const index =  shouldResetIndex ? 0 : currentSectionIndex + 1;
 
 		this.setState({
-			currentImageIndex: index
+			currentSectionIndex: index
 		});
 	}
 	
@@ -44,7 +38,9 @@ class Carousel extends React.Component {
 		return (
 			<div className="carousel">
 				<Arrow direction="left" clickFunction={ this.previousSlide } glyph="&#9664;" />
-				<ImageSlide url={ imgUrls[this.state.currentImageIndex] } />
+				<ImageSlide image={ sections[this.state.currentSectionIndex]["fields"]["image"] }
+				link={ sections[this.state.currentSectionIndex]["fields"]["url"] }
+				text={ sections[this.state.currentSectionIndex]["fields"]["name"] } />
 				<Arrow direction="right" clickFunction={ this.nextSlide } glyph="&#9654;" />
 			</div>
 		);
@@ -59,15 +55,18 @@ const Arrow = ({ direction, clickFunction, glyph }) => (
 	</div>
 );
 
-const ImageSlide = ({ url }) => {
+const ImageSlide = ({ image, link, text }) => {
 	const styles = {
-		backgroundImage: `url(${url})`,
+		backgroundImage: `url(${image})`,
 		backgroundSize: 'cover',
 		backgroundPosition: 'center'
 	};
 	
 	return (
-		<div className="image-slide" style={styles}></div>
+		<div className="image-slide" style={styles}>
+		    { text }
+		    <a className="site-link" href={ link }  />
+		</div>
 	);
 }
 
