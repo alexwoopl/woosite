@@ -1,9 +1,35 @@
-<h1> Woo's Things </h1>
+<!DOCTYPE html>
 
-<div id="contents">
-    <ol>
-        {% for s in sections %}
-        <li id="{{ s.key }}"><a href="{{ s.url }}"> {{ s.name }} </a></li>
-        {% endfor %}
-    </ol>
-</div>
+{% load static %}
+<html>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'top_page/style.css' %}">
+
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+
+        <div class="site-title">
+            <h1>Woo's Things</h1>
+        </div>
+
+        <div id="content">
+
+        </div>
+
+
+    </body>
+</html>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+<script type="text/javascript">
+  var context = {
+    sections: '{{sections|safe}}'
+  };
+</script>
+
+<script src="{% static 'top_page/site_section_carousel.js' %}"></script>
