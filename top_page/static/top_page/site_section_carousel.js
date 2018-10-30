@@ -96,8 +96,13 @@ var ImageSlide = function ImageSlide(_ref2) {
 	return React.createElement(
 		"div",
 		{ className: "image-slide", style: styles },
-		text,
-		React.createElement("a", { className: "site-link", href: link })
+		React.createElement(
+			"a",
+			{ className: "site-link", href: link },
+			" ",
+			text,
+			" "
+		)
 	);
 };
 

@@ -64,8 +64,7 @@ const ImageSlide = ({ image, link, text }) => {
 	
 	return (
 		<div className="image-slide" style={styles}>
-		    { text }
-		    <a className="site-link" href={ link }  />
+		    <a className="site-link" href={ link } > { text } </a>
 		</div>
 	);
 }
